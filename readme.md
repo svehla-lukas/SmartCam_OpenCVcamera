@@ -7,3 +7,5 @@ Python libraries:
 ## Framework for train my model
 - ultralytics -> YOLO
 
+# Text detectio
+- Tesseract
