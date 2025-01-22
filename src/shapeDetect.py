@@ -37,7 +37,7 @@ def shapeDetection() -> None:
         if not ret:
             break  # Exit loop if frame capturing fails
 
-        frame = preprocessFrame(frame)
+        # frame = preprocessFrame(frame)
 
         # Convert frame to grayscale and apply preprocessing
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -50,7 +50,7 @@ def shapeDetection() -> None:
 
             # Display text with detected object counts
             text = f"Rectangle: {counterRectangles}\nSquare: {counterSquare}\nCircles: {counterCircle}"
-            multiLineTextCv2(frame, text, font_scale=0.7)
+            multiLineTextCv2(frame, text, font_scale=0.7, color=(255, 255, 0))
 
             cv2.imshow("Processed Frame", frame)
 
@@ -80,10 +80,10 @@ def adjustDelay():
     """Adjust frame delay based on the flagIncrease flag."""
     global delayFrame, flagIncrease
     if flagIncrease:
-        delayFrame = 2000
+        delayFrame = 4000
         flagIncrease = False
     else:
-        delayFrame = 200
+        delayFrame = 500
 
 
 def cleanup(cap):
@@ -134,7 +134,7 @@ def multiLineTextCv2(
 def cropFrameCv2(
     frame,
     vertical_start_ratio=0,
-    vertical_end_ratio=1,
+    vertical_end_ratio=6 / 7,
     horizontal_start_ratio=1 / 3,
     horizontal_end_ratio=2 / 3,
 ):
@@ -206,8 +206,13 @@ def classifyShape(contour, colors):
     return None, None, None, None, None
 
 
-def classifyRectangleOrSquare(contour, approx, colors):
+def classifyRectangleOrSquare(contour, approx, colors, minArea=100):
     """Classify whether the shape is a rectangle or a square."""
+    x, y, w, h = cv2.boundingRect(approx)
+    area = w * h
+    if area < minArea:
+        return None, None, None, None, None
+
     x, y, w, h = cv2.boundingRect(approx)
     aspectRatio = float(w) / h
     label = "Square" if 0.95 < aspectRatio < 1.05 else "Rectangle"
@@ -221,8 +226,11 @@ def classifyRectangleOrSquare(contour, approx, colors):
     return rect, label, color, angle, center
 
 
-def classifyCircle(contour, perimeter, area, colors):
+def classifyCircle(contour, perimeter, area, colors, minArea=50):
     """Classify whether the shape is a circle."""
+    if area < minArea:
+        return None, None, None, None, None
+
     circularity = 4 * np.pi * (area / (perimeter * perimeter))
     if 0.8 < circularity <= 1.2:
         (x, y), radius = cv2.minEnclosingCircle(contour)
