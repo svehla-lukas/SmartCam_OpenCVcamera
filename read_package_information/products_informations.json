@@ -1,0 +1,46 @@
+{
+  "Traumastem_TAF_Light": {
+    "REF_position": [90, 17.5, 40, 5],
+    "pictograms": {},
+    "DMC_code": {
+      "name": "DMC_code",
+      "language": "bmc",
+      "excel_colomn_name": "",
+      "origin_text": "",
+      "position_mm": [
+          16,
+          17,
+          11,
+          11
+      ],
+    },
+    "languages": {},
+    "text_position_excel" : {
+      "product_name" : {
+        "excel_col_name": "Název výrobku",
+        "language": "eng",
+        "position_mm": [9, 9, 40, 8]
+      },
+      "dimension" : {
+        "excel_col_name": "Rozmer serazeny",
+        "language": "eng",
+        "position_mm": [70, 13, 40, 5]
+      },
+      "description_multi_lang" : {
+        "excel_col_name": "Dodatek názvu",
+        "language": "multilanguage",
+        "position_mm": [10, 32, 115, 18]
+      },
+      "DMC_first_part" : {
+        "excel_col_name": "GTIN 14 - jednotka pouziti",
+        "language": "eng",
+        "position_mm": [9, 9, 40, 8]
+      },
+      "package_secondary_code" : {
+        "excel_col_name": "Kod - sekundar",
+        "language": "eng",
+        "position_mm": [80, 70, 10, 5]
+      }
+    } 
+  }
+}

@@ -1,0 +1,98 @@
+{
+    "DMC_text": {
+        "name": "DMC_text",
+        "language": "",
+        "excel_colomn_name": "",
+        "correct_text": "(01)18590317102263 (10)2205132/1H (17)250513",
+        "position_mm": [
+            35,
+            18,
+            27,
+            13
+        ]
+    },
+    "DIM": {
+        "name": "DIM",
+        "language": "",
+        "excel_colomn_name": "Rozmer serazeny",
+        "correct_text": "",
+        "position_mm": [
+            70,
+            13,
+            40,
+            5
+        ]
+    },
+    "REF": {
+        "name": "REF",
+        "language": "",
+        "excel_colomn_name": "REF",
+        "correct_text": "",
+        "position_mm": [
+            90,
+            17.5,
+            40,
+            5
+        ]
+    },
+    "LOT": {
+        "name": "LOT",
+        "language": "",
+        "excel_colomn_name": "",
+        "correct_text": "23080112/1H",
+        "position_mm": [
+            90,
+            22.5,
+            40,
+            5
+        ]
+    },
+    "EXP": {
+        "name": "EXP",
+        "language": "",
+        "excel_colomn_name": "",
+        "correct_text": "2026-08-01",
+        "position_mm": [
+            90,
+            27.5,
+            40,
+            5
+        ]
+    },
+    "product_name": {
+        "name": "product_name",
+        "language": "",
+        "excel_colomn_name": "Název výrobku",
+        "correct_text": "",
+        "position_mm": [
+            10,
+            12,
+            50,
+            6
+        ]
+    },
+    "multi_language_description": {
+        "name": "multi_language_description",
+        "language": "eng+spa+deu+ell+pol+ukr+tur+por",
+        "excel_colomn_name": "Dodatek názvu",
+        "correct_text": "",
+        "position_mm": [
+            10,
+            32,
+            115,
+            18
+        ]
+    },
+    "manufacturer": {
+        "name": "manufacturer (add man_code)",
+        "language": "ces",
+        "excel_colomn_name": "",
+        "correct_text": "BIOSTER, a.s. Tejny 621 - 664 71 Veverská Bítýška Czech Republic - www.bioster.eu",
+        "position_mm": [
+            72,
+            63,
+            40,
+            12
+        ]
+    }
+}
