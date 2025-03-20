@@ -1,0 +1,13 @@
+# Ignorování složek cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignorování virtuálního prostředí
+venv/
+env/
+
+# Ignorování logů a dočasných souborů
+*.log
+*.tmp

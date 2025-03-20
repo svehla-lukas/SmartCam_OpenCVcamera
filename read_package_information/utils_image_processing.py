@@ -100,7 +100,7 @@ def get_biggest_polygon(frame_gray: np.ndarray, px_to_mm: float, pixelsArea=2000
             rect = cv2.minAreaRect(largest_contour)
             # Oříznutí podle obdélníku
             box = cv2.boxPoints(rect)
-            crop_frame = crop_rotated_rectangle(frame_gray, box)
+            crop_frame = crop_image(frame_gray, box)
 
             ######################################################
             #  --- Vlozeni textu na puvodni obrazek ---
@@ -160,7 +160,11 @@ def get_biggest_polygon(frame_gray: np.ndarray, px_to_mm: float, pixelsArea=2000
     return frame_bgr, crop_frame, None, None, None
 
 
-def crop_rotated_rectangle(frame, box):
+import cv2
+import numpy as np
+
+
+def crop_image(frame: np.ndarray, box: np.ndarray) -> np.ndarray:
     """
     Extracts and warps a rotated rectangle from the image, ensuring the bottom side is always longer.
 
@@ -308,9 +312,6 @@ def extract_text_from_frame(
     return image_text
 
 
-from difflib import SequenceMatcher
-
-
 def text_similarity(text1: str, text2: str) -> float:
     """
     Computes the similarity percentage between two text strings after normalizing them.
@@ -328,3 +329,122 @@ def text_similarity(text1: str, text2: str) -> float:
     text1, text2 = normalize(text1), normalize(text2)
     similarity = SequenceMatcher(None, text1, text2).ratio() * 100
     return round(similarity, 2)  # Round for better readability
+
+
+def find_first_black_pixel(binary_img: np.ndarray) -> tuple[int, int] | None:
+    """
+    Finds the first black pixel (text) in a binary image, starting from the top-left corner.
+
+    :param binary_img: Binary image as a NumPy array.
+    :return: Coordinates (x, y) of the first detected text pixel, or None if no text is found.
+    """
+    # Ensure input is a valid NumPy array
+    if not isinstance(binary_img, np.ndarray):
+        raise TypeError("❌ 'binary_img' must be a NumPy array.")
+
+    # Get non-zero (black) pixels
+    non_zero_pixels = cv2.findNonZero(
+        255 - binary_img
+    )  # Invert image for proper detection
+
+    if non_zero_pixels is None:
+        return None  # No text detected
+
+    # Get the first detected text pixel (smallest Y, then smallest X)
+    first_pixel = tuple(
+        non_zero_pixels[0][0]
+    )  # OpenCV stores it as [[[x, y]]], so we extract (x, y)
+
+    return first_pixel
+
+
+def process_and_find_black_pixel(
+    frame: np.ndarray, box: np.ndarray
+) -> tuple[int, int] | None:
+    """
+    Applies Gaussian blur, thresholds the image, crops it to the given bounding box,
+    and finds the first text pixel.
+
+    :param frame: Input image (NumPy array).
+    :param box: Bounding box to crop the image (NumPy array).
+    :return: Coordinates (x, y) of the first detected text pixel, or None if no text is found.
+    """
+    # Apply Gaussian blur to reduce noise
+    blurred = cv2.GaussianBlur(frame, (3, 3), 0)
+
+    # Convert to binary image (thresholding)
+    _, binary = cv2.threshold(blurred, 50, 255, cv2.THRESH_BINARY)
+
+    # Crop the binary image using the provided box
+    cropped_frame = crop_image(binary, box)
+
+    # Find the first text pixel
+    first_pixel = find_first_black_pixel(cropped_frame)
+
+    return first_pixel
+
+
+def create_bounding_box(x: int, y: int, width: int, height: int) -> np.ndarray:
+    """
+    Creates a bounding box (4 corner points) from the given top-left corner and dimensions.
+
+    :param x: X-coordinate of the top-left corner.
+    :param y: Y-coordinate of the top-left corner.
+    :param width: Width of the bounding box.
+    :param height: Height of the bounding box.
+    :return: NumPy array of shape (4,2) containing the four corner points.
+    """
+    box = np.array(
+        [
+            [x, y],  # Top-left
+            [x + width, y],  # Top-right
+            [x + width, y + height],  # Bottom-right
+            [x, y + height],  # Bottom-left
+        ],
+        dtype="float32",
+    )
+
+    return box
+
+
+import cv2
+import numpy as np
+
+
+def detect_first_black_pixel(crop_frame, search_area):
+    """
+    Processes the image to detect the first black pixel in a defined region of interest.
+
+    :param crop_frame: Input image (grayscale)
+    :param search_area: Tuple (x, y, width, height) defining the region of interest
+    :return: Coordinates of the first black pixel or None if not found
+    """
+    x, y, width, height = search_area
+
+    # Apply Gaussian blur
+    blurred = cv2.GaussianBlur(crop_frame, (3, 3), 0)
+
+    # Apply adaptive thresholding
+    binary = cv2.adaptiveThreshold(
+        blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 5, 2
+    )
+
+    # Apply another binary threshold
+    _, binary = cv2.threshold(blurred, 50, 255, cv2.THRESH_BINARY)
+
+    # Show processed images (optional)
+    cv2.imshow("size", crop_frame)
+
+    # Define bounding box based on input search area
+    box = create_bounding_box(x, y, width, height)
+
+    # Find the first black pixel in the specified area
+    first_pixel = process_and_find_black_pixel(crop_frame, box)
+
+    if first_pixel is not None:
+        first_pixel += np.array([x, y])
+        print(f"✅ First black pixel found at: {first_pixel}")
+        return first_pixel
+    else:
+        print("❌ No black pixel detected in the given area.")
+        return None
