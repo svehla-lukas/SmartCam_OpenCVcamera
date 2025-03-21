@@ -6,7 +6,6 @@ from scipy.spatial import distance
 from collections import defaultdict
 
 from shapeDetect import shapeDetection
-from HandTrackingDraw import HandTrackingDetection
 from TextDetection import extractTextFromImage
 from GetRectanglePicture import GetRectanglePicture
 from utils import initCamera
