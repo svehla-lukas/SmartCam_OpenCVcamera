@@ -26,7 +26,7 @@ def trackObject():
             break
 
         # Resize frame for consistency (if needed)
-        frame = cv2.resize(frame, (640, 480))
+        frame = cv2.resize(frame, None, fx=0.5, fy=0.5))
 
         # Convert the frame to grayscale
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)

@@ -56,10 +56,10 @@ def detect_edges_and_contours(
     contours, hierarchy = cv2.findContours(
         edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE
     )
-    # cv2.imshow("adaptive_thresh", cv2.resize(adaptive_thresh, (640, 480)))
-    # cv2.imshow("threshold", cv2.resize(threshold, (640, 480)))
-    # cv2.imshow("threshold", cv2.resize(threshold, (640, 480)))
-    # cv2.imshow("edges", cv2.resize(edges, (640, 480)))
+    # cv2.imshow("adaptive_thresh", cv2.resize(adaptive_thresh, None, fx=0.5, fy=0.5))
+    # cv2.imshow("threshold", cv2.resize(threshold, None, fx=0.5, fy=0.5))
+    # cv2.imshow("threshold", cv2.resize(threshold, None, fx=0.5, fy=0.5))
+    # cv2.imshow("edges", cv2.resize(edges, None, fx=0.5, fy=0.5))
 
     return contours, hierarchy
 
@@ -330,11 +330,11 @@ def draw_contour_info(
     # Text information for display
     texts = [
         f"{header}",
-        f"Distance: {focal_length}mm  ; 1mm =~ {round(1/px_to_mm, 3)} [px]",
+        f"Cam. distance: {focal_length}mm  ; 1mm =~ {round(1/px_to_mm, 3)} [px]",
         f"Center: ({center_x}, {center_y})",
         f"Size: {width} [px] x {height} [px]",
         f"Size: {width_mm} [mm] x {height_mm} [mm]",
-        f"Angle: {round(angle, 2)}°",
+        f"Angle: {round(angle)} deg",
     ]
 
     for i, text in enumerate(texts):

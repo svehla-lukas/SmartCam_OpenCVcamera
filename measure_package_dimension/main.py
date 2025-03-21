@@ -14,6 +14,7 @@ import CameraThread
 settings = {
     "use_camera": False,
     "measure_rectangle": True,
+    "camera_distance": 290,
 }
 flags = {"run_loop": True}
 
@@ -23,7 +24,7 @@ if __name__ == "__main__":
     if settings["use_camera"]:
         camera = CameraThread()
 
-    px_to_mm = imPr.calculate_pixel_size(D=290)
+    px_to_mm = imPr.calculate_pixel_size(D=settings["camera_distance"])
     print(f"px = {round(px_to_mm, 3)} mm")
 
     while flags["run_loop"] == True:  # Infinite loop until 'q' is pressed
@@ -46,11 +47,11 @@ if __name__ == "__main__":
                     frame_bgr,
                     largest_contour,
                     "biggest object",
-                    focal_length=200,
+                    focal_length=settings["camera_distance"],
                     text_offset=100,
                 )
 
-            cv2.imshow("Measure_distance", cv2.resize(frame_bgr, (640, 480)))
+            cv2.imshow("Measure_distance", cv2.resize(frame_bgr, None, fx=0.5, fy=0.5))
 
         # end loop
         key = cv2.waitKey(0) & 0xFF

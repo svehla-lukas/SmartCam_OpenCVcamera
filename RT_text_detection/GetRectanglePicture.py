@@ -76,9 +76,7 @@ def rotateRectangleWideDown(frame, drawContour=False):
             # Resize the cropped rectangle to larger dimensions
             scale_factor = 1.8  # Example: Double the size
             cropped_rectangle = cv2.resize(
-                cropped_rectangle,
-                (int(w * scale_factor), int(h * scale_factor)),
-                interpolation=cv2.INTER_LINEAR,
+                cropped_rectangle, None, fx=scale_factor, fy=scale_factor
             )
 
             # Draw the rectangle (optional for debugging)
