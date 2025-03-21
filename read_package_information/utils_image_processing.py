@@ -56,10 +56,10 @@ def detect_edges_and_contours(
     contours, hierarchy = cv2.findContours(
         edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE
     )
-    # cv2.imshow("adaptive_thresh", cv2.resize(adaptive_thresh, (640, 480)))
-    # cv2.imshow("threshold", cv2.resize(threshold, (640, 480)))
-    # cv2.imshow("threshold", cv2.resize(threshold, (640, 480)))
-    # cv2.imshow("edges", cv2.resize(edges, (640, 480)))
+    # cv2.imshow("adaptive_thresh", cv2.resize(adaptive_thresh, None, fx=0.5, fy=0.5))
+    # cv2.imshow("threshold", cv2.resize(threshold, None, fx=0.5, fy=0.5))
+    # cv2.imshow("threshold", cv2.resize(threshold, None, fx=0.5, fy=0.5))
+    # cv2.imshow("edges", cv2.resize(edges, None, fx=0.5, fy=0.5))
 
     return contours, hierarchy
 
@@ -295,7 +295,9 @@ def extract_text_from_frame(
 
     # Display the extracted region if enabled
     if show_image:
-        cv2.imshow("Extracted Text Frame", frame_text_code)
+        cv2.imshow(
+            "Extracted Text Frame", cv2.resize(frame_text_code, None, fx=0.5, fy=0.5)
+        )
     # Perform OCR using Tesseract
     custom_config = r"--oem 3 --psm 4"
     image_text = pytesseract.image_to_string(
@@ -423,9 +425,6 @@ def detect_first_black_pixel(crop_frame, search_area):
 
     # Apply another binary threshold
     _, binary = cv2.threshold(blurred, 50, 255, cv2.THRESH_BINARY)
-
-    # Show processed images (optional)
-    cv2.imshow("size", crop_frame)
 
     # Define bounding box based on input search area
     box = create_bounding_box(x, y, width, height)

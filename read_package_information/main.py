@@ -58,7 +58,7 @@ if __name__ == "__main__":
             frame_gray, px_to_mm=px_to_mm, pixelsArea=(smallest_area / px_to_mm)
         )
 
-        cv2.imshow("origin", cv2.resize(frame_detect, (640, 480)))
+        cv2.imshow("origin", cv2.resize(frame_detect, None, fx=0.5, fy=0.5))
         if crop_frame is not None:
             box_text_relative_position = [50, 100, 200, 150]
             first_pixel = imPr.detect_first_black_pixel(
@@ -75,7 +75,7 @@ if __name__ == "__main__":
                 for value in product_references["REF"]["position_mm"]
             )
             read_REF_code = imPr.extract_text_from_frame(
-                crop_frame, position_px=position_px
+                crop_frame, position_px=position_px, show_image=True
             )
             # print(read_REF_code)
 
@@ -109,11 +109,11 @@ if __name__ == "__main__":
                     position_abs = value.get("position_NiceLabel_abs_mm")
                     position_rel = np.array(position_abs) + position_diff
                     position_px = tuple(int(value / px_to_mm) for value in position_rel)
-                    print(f"first_px [mm] :{first_pixel * px_to_mm}")
-                    print(f"position_abs {position_abs}")
-                    print(f"position_diff {position_diff}")
-                    print(f"position_rel: {position_rel}")
-                    print(f"position_px: {position_px}")
+                    # print(f"first_px [mm] :{first_pixel * px_to_mm}")
+                    # print(f"position_abs {position_abs}")
+                    # print(f"position_diff {position_diff}")
+                    # print(f"position_rel: {position_rel}")
+                    # print(f"position_px: {position_px}")
 
                     origin_text = value.get("correct_text", "")
                     language = value.get("language", "eng") or "eng"
@@ -130,7 +130,7 @@ if __name__ == "__main__":
                     print(f"origin text: {origin_text}")
                     print(f"read text  : {read_text}")
                     print(f"similarity {similarity}")
-                    print("\n")
+                    # print("\n")
                     cv2.waitKey(0)  # Waits for a key press before closing
 
         # end loop
