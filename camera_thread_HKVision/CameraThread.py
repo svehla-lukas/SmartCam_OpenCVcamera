@@ -6,9 +6,10 @@ import cv2
 from ctypes import *
 from MvImport.MvCameraControl_class import *
 
+
 class CameraThread:
     def __init__(self, callback=None):
-        """ Initializes the camera and prepares the capture thread. """
+        """Initializes the camera and prepares the capture thread."""
         self.cam = None
         self.running = False
         self.thread = None
@@ -16,7 +17,7 @@ class CameraThread:
         self.callback = callback  # Optional callback function for image processing
 
     def initialize_camera(self):
-        """ Initializes and opens the camera. """
+        """Initializes and opens the camera."""
         device_list = MV_CC_DEVICE_INFO_LIST()
         tlayer_type = MV_GIGE_DEVICE | MV_USB_DEVICE
 
@@ -27,7 +28,9 @@ class CameraThread:
         print(f"Found {device_list.nDeviceNum} devices.")
 
         self.cam = MvCamera()
-        device_info = cast(device_list.pDeviceInfo[0], POINTER(MV_CC_DEVICE_INFO)).contents
+        device_info = cast(
+            device_list.pDeviceInfo[0], POINTER(MV_CC_DEVICE_INFO)
+        ).contents
 
         ret = self.cam.MV_CC_CreateHandle(device_info)
         if ret != 0:
@@ -40,7 +43,7 @@ class CameraThread:
         ret = self.cam.MV_CC_SetEnumValue("TriggerMode", MV_TRIGGER_MODE_OFF)
         if ret != 0:
             raise RuntimeError(f"Failed to set trigger mode! ret[0x{ret:x}]")
-        
+
         self.configuration()
 
     def configuration(self):
@@ -77,7 +80,7 @@ class CameraThread:
             print(f"⚠ Failed to set TriggerSource! ret[0x{ret:x}]")
 
     def start(self):
-        """ Starts the capture thread and begins grabbing frames. """
+        """Starts the capture thread and begins grabbing frames."""
         if self.running:
             print("❗ Camera is already running!")
             return
@@ -93,7 +96,7 @@ class CameraThread:
         self.thread.start()
 
     def stop(self):
-        """ Stops the capture thread and closes the camera. """
+        """Stops the capture thread and closes the camera."""
         if not self.running:
             print("❗ Camera is not active.")
             return
@@ -106,7 +109,7 @@ class CameraThread:
         print("✅ Camera successfully shut down.")
 
     def _capture_frames(self):
-        """ Internal method for continuously capturing frames in the thread. """
+        """Internal method for continuously capturing frames in the thread."""
         stOutFrame = MV_FRAME_OUT()
         memset(byref(stOutFrame), 0, sizeof(stOutFrame))
 
@@ -116,7 +119,10 @@ class CameraThread:
                 # Convert to NumPy array
                 img_data = np.ctypeslib.as_array(
                     cast(stOutFrame.pBufAddr, POINTER(c_ubyte)),
-                    shape=(stOutFrame.stFrameInfo.nHeight, stOutFrame.stFrameInfo.nWidth)
+                    shape=(
+                        stOutFrame.stFrameInfo.nHeight,
+                        stOutFrame.stFrameInfo.nWidth,
+                    ),
                 )
 
                 self.latest_frame = img_data.copy()  # Store the latest frame
@@ -125,8 +131,10 @@ class CameraThread:
                 if self.callback:
                     self.callback(img_data)  # If a callback is provided, use it
                 else:
-                    cv2.imshow('Live Video', img_data)  # Otherwise, use default OpenCV display
-                    if cv2.waitKey(1) & 0xFF == ord('q'):
+                    cv2.imshow(
+                        "Live Video", img_data
+                    )  # Otherwise, use default OpenCV display
+                    if cv2.waitKey(1) & 0xFF == ord("q"):
                         break  # Stop when 'q' is pressed
 
                 self.cam.MV_CC_FreeImageBuffer(stOutFrame)
@@ -136,11 +144,11 @@ class CameraThread:
         cv2.destroyAllWindows()
 
     def get_latest_frame(self):
-        """ Returns the most recently stored frame. """
+        """Returns the most recently stored frame."""
         return self.latest_frame
 
     def capture_single_frame(self):
-        """ Captures a single frame from the camera without starting continuous capture. """
+        """Captures a single frame from the camera without starting continuous capture."""
         if self.cam is None:  # Initialize camera only if it's not already created
             self.initialize_camera()
 
@@ -156,7 +164,7 @@ class CameraThread:
         if stOutFrame.pBufAddr is not None and ret == 0:
             img_data = np.ctypeslib.as_array(
                 cast(stOutFrame.pBufAddr, POINTER(c_ubyte)),
-                shape=(stOutFrame.stFrameInfo.nHeight, stOutFrame.stFrameInfo.nWidth)
+                shape=(stOutFrame.stFrameInfo.nHeight, stOutFrame.stFrameInfo.nWidth),
             )
 
             self.cam.MV_CC_FreeImageBuffer(stOutFrame)  # Release buffer

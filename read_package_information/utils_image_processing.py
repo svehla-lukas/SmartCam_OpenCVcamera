@@ -160,10 +160,6 @@ def get_biggest_polygon(frame_gray: np.ndarray, px_to_mm: float, pixelsArea=2000
     return frame_bgr, crop_frame, None, None, None
 
 
-import cv2
-import numpy as np
-
-
 def crop_image(frame: np.ndarray, box: np.ndarray) -> np.ndarray:
     """
     Extracts and warps a rotated rectangle from the image, ensuring the bottom side is always longer.
@@ -405,10 +401,6 @@ def create_bounding_box(x: int, y: int, width: int, height: int) -> np.ndarray:
     )
 
     return box
-
-
-import cv2
-import numpy as np
 
 
 def detect_first_black_pixel(crop_frame, search_area):
