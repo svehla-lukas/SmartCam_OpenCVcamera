@@ -256,6 +256,43 @@ def calculate_pixel_size(
     return pixel_size
 
 
+def find_largest_contour(frame_gray, pixelsArea=200000):
+    """
+    Finds the largest polygon in the image and returns its contour if it meets the conditions.
+
+    :param frame_gray: Grayscale input image.
+    :param pixelsArea: Minimum polygon area for detection.
+    :return: The largest valid contour or None if no suitable polygon is found.
+    """
+
+    # Detect edges and contours
+    contours, _ = detect_edges_and_contours(frame_gray)
+
+    # Check if any contours were found
+    if not contours:
+        print("❌ No contours were found.")
+        return None
+
+    # Find the largest contour by area
+    largest_contour = max(contours, key=cv2.contourArea)
+
+    # Verify that the largest contour exists and is not too small
+    if largest_contour is None or cv2.contourArea(largest_contour) <= pixelsArea:
+        print("⚠️ The largest contour is too small or does not exist.")
+        return None
+
+    # Simplify the contour (polygon approximation)
+    epsilon = 0.07 * cv2.arcLength(largest_contour, True)
+    approx = cv2.approxPolyDP(largest_contour, epsilon, True)
+
+    # Verify that the contour is a quadrilateral
+    if len(approx) == 4:
+        return largest_contour  # ✅ Valid contour
+
+    print("❌ The largest object is not a quadrilateral.")
+    return None  # If the contour is not a quadrilateral
+
+
 def draw_contour_info(
     frame_bgr, largest_contour, header="Contour Info", focal_length=200, text_offset=100
 ):
@@ -293,11 +330,25 @@ def draw_contour_info(
     # Text information for display
     texts = [
         f"{header}",
+        f"Distance: {focal_length}mm  ; 1mm =~ {round(1/px_to_mm, 3)} [px]",
         f"Center: ({center_x}, {center_y})",
         f"Size: {width} [px] x {height} [px]",
         f"Size: {width_mm} [mm] x {height_mm} [mm]",
         f"Angle: {round(angle, 2)}°",
-        f"Distance: {focal_length}mm  ; 1mm =~ {round(1/px_to_mm, 3)} [px]",
     ]
 
-    return frame_bgr, center_x, center_y, angle
+    for i, text in enumerate(texts):
+        cv2.putText(
+            img=frame_bgr,  # Input image
+            text=text,  # Text string
+            org=(10, text_offset + i * 100),  # Position (x, y)
+            fontFace=cv2.FONT_HERSHEY_SIMPLEX,  # Font type
+            fontScale=2,  # Font size
+            color=(255, 255, 255),  # Text color (White in BGR)
+            thickness=3,  # Thickness of the text
+        )
+
+    # Vykreslení středu kontury (červený bod)
+    cv2.circle(frame_bgr, (center_x, center_y), 5, (0, 0, 255), -1)
+
+    return frame_bgr
