@@ -1,9 +1,18 @@
-from camera_thread import CameraThread
 import utils_image_processing as imPr
 import utils_files
 import time
 import cv2
 import numpy as np
+import sys
+import os
+
+sys.path.append(
+    os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "..", "camera_thread_HKVision")
+    )
+)
+import CameraThread
+
 
 settings = {
     "use_camera": False,
@@ -12,8 +21,8 @@ settings = {
 flags = {"run_loop": True}
 
 nice_label_database_xlsx = r"C:\Users\Uzivatel\Desktop\Potisky - platnost od 2.10.2024 - Baxter CH REP\Zdroje\Vyrobky z PN + RU, EN.xlsx"
-# products_informations_json = r"products_informations.json"
-products_informations_json = r"data_TraumastemTafLight.json"
+# products_information_json = r"products_informations.json"
+products_information_json = r"data_TraumastemTafLight.json"
 
 
 """Capture a single frame without starting video streaming."""
@@ -25,7 +34,7 @@ if __name__ == "__main__":
     print(f"px = {round(px_to_mm, 3)} mm")
 
     """ Rad json data """
-    product_references = utils_files.load_json(products_informations_json)
+    product_references = utils_files.load_json(products_information_json)
     # print("product_references", product_references)
 
     """ Read xlsx data """
