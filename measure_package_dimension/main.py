@@ -1,5 +1,4 @@
 import utils_image_processing as imPr
-import utils_files
 import time
 import cv2
 import numpy as np
@@ -7,9 +6,11 @@ import sys
 import os
 
 sys.path.append(
-    os.path.abspath(r"C:\Users\Uzivatel\Desktop\smart_cam\camera_thread_HKVision")
+    os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "..", "camera_thread_HKVision")
+    )
 )
-from camera_thread import CameraThread
+import CameraThread
 
 settings = {
     "use_camera": False,
