@@ -64,9 +64,11 @@ def detect_edges_and_contours(
     return contours, hierarchy
 
 
-def get_biggest_polygon(frame_gray: np.ndarray, px_to_mm: float, pixelsArea=200000):
+def get_biggest_polygon(
+    frame_gray: np.ndarray, px_to_mm: float, pixelsArea=200000
+) -> tuple[np.ndarray, np.ndarray | None, tuple[int, int], tuple[int, int], float]:
     """
-    Finds the largest polygon in the image and returns its center coordinates and rotation angle.
+    Finds the largest polygon in the image and returns its box coordinates and rotation angle.
 
     :param frame_gray: Input grayscale image.
     :param pixelsArea: Minimum polygon area for detection.
@@ -75,14 +77,15 @@ def get_biggest_polygon(frame_gray: np.ndarray, px_to_mm: float, pixelsArea=2000
 
     largest_contour = None
     crop_frame = None
-    center_y, center_x, angle = None, None, None
+    box = None
+    angle = None
 
     frame_bgr = cv2.cvtColor(frame_gray, cv2.COLOR_GRAY2BGR)
 
     contours, _ = detect_edges_and_contours(frame_gray)
     if not contours:
         print("noneContours")
-        return frame_bgr, crop_frame, None, None, None  # No contours found
+        return frame_bgr, crop_frame, None, None  # No contours found
 
     largest_contour = max(contours, key=cv2.contourArea, default=None)
 
@@ -155,9 +158,9 @@ def get_biggest_polygon(frame_gray: np.ndarray, px_to_mm: float, pixelsArea=2000
             cv2.circle(frame_bgr, (center_x, center_y), 5, (0, 0, 255), -1)
             ######################################################
 
-            return frame_bgr, crop_frame, center_x, center_y, angle
+            return frame_bgr, crop_frame, box, angle
 
-    return frame_bgr, crop_frame, None, None, None
+    return frame_bgr, crop_frame, None, None
 
 
 def crop_image(frame: np.ndarray, box: np.ndarray) -> np.ndarray:
@@ -439,3 +442,33 @@ def detect_first_black_pixel(crop_frame, search_area):
     else:
         print("❌ No black pixel detected in the given area.")
         return None
+
+
+def draw_rotated_rect(
+    frame: np.ndarray,
+    position_px: tuple[int, int, int, int],
+    text: str,
+    angle: float,
+    color: tuple[int, int, int] = (0, 255, 0),
+    thickness: int = 2,
+) -> np.ndarray:
+    x, y, w, h = position_px
+
+    # Výpočet středu obdélníku
+    center = (x + w / 2, y + h / 2)
+
+    # Definuj obdélník jako RotatedRect
+    rect = ((center[0], center[1]), (w, h), angle)
+
+    # Získej 4 rohové body (float32)
+    box = cv2.boxPoints(rect)
+    box = np.int32(box)
+
+    # Nakresli obdélník
+    cv2.polylines(frame, [box], isClosed=True, color=color, thickness=thickness)
+
+    # Add text to rectangle
+    if text:
+        cv2.putText(frame, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1)
+
+    return frame

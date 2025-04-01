@@ -17,166 +17,170 @@
             5
         ]
     },
-    "DMC_text": {
-        "name": "DMC_text",
-        "language": "",
-        "excel_colomn_name": "",
-        "correct_text": "(01)18590317102263 (10)2205132/1H (17)250513",
-        "position_mm": [
-            35,
-            18,
-            27,
-            13
-        ],
-        "position_NiceLabel_abs_mm": [
-            34,
-            19,
-            26.1,
-            11.6
-        ]
+    "texts_numbers": {
+        "DMC_text": {
+            "name": "DMC_text",
+            "language": "",
+            "excel_colomn_name": "",
+            "correct_text": "(01)18590317102263 (10)2205132/1H (17)250513",
+            "position_mm": [
+                35,
+                18,
+                27,
+                13
+            ],
+            "position_NiceLabel_abs_mm": [
+                34,
+                19,
+                26.1,
+                11.6
+            ]
+        },
+        "DIM": {
+            "name": "DIM",
+            "language": "",
+            "excel_colomn_name": "Rozmer serazeny",
+            "correct_text": "",
+            "position_mm": [
+                70,
+                13,
+                40,
+                5
+            ],
+            "position_NiceLabel_abs_mm": [
+                75.6,
+                14,
+                33.2,
+                3.4
+            ]
+        },
+        "REF": {
+            "name": "REF",
+            "language": "",
+            "excel_colomn_name": "REF",
+            "correct_text": "",
+            "position_mm": [
+                90,
+                17.5,
+                40,
+                5
+            ],
+            "position_NiceLabel_abs_mm": [
+                91.5,
+                17.5,
+                17.2,
+                3.4
+            ]
+        },
+        "LOT": {
+            "name": "LOT",
+            "language": "",
+            "excel_colomn_name": "",
+            "correct_text": "2208122/1H",
+            "position_mm": [
+                90,
+                22.5,
+                40,
+                5
+            ],
+            "position_NiceLabel_abs_mm": [
+                91.55,
+                22.5,
+                17.2,
+                3.4
+            ]
+        },
+        "DOM": {
+            "name": "DOM",
+            "language": "",
+            "excel_colomn_name": "",
+            "correct_text": "",
+            "position_mm": [
+                56,
+                27.5,
+                10,
+                5
+            ],
+            "position_NiceLabel_abs_mm": [
+                76.6,
+                27.5,
+                13.5,
+                3.4
+            ]
+        },
+        "EXP": {
+            "name": "EXP",
+            "language": "",
+            "excel_colomn_name": "",
+            "correct_text": "2026-08-01",
+            "position_mm": [
+                90,
+                27.5,
+                40,
+                5
+            ],
+            "position_NiceLabel_abs_mm": [
+                93,
+                27.5,
+                13.6,
+                3.4
+            ]
+        }
     },
-    "DIM": {
-        "name": "DIM",
-        "language": "",
-        "excel_colomn_name": "Rozmer serazeny",
-        "correct_text": "",
-        "position_mm": [
-            70,
-            13,
-            40,
-            5
-        ],
-        "position_NiceLabel_abs_mm": [
-            75.6,
-            14,
-            33.2,
-            3.4
-        ]
-    },
-    "REF": {
-        "name": "REF",
-        "language": "",
-        "excel_colomn_name": "REF",
-        "correct_text": "",
-        "position_mm": [
-            90,
-            17.5,
-            40,
-            5
-        ],
-        "position_NiceLabel_abs_mm": [
-            91.5,
-            17.5,
-            17.2,
-            3.4
-        ]
-    },
-    "LOT": {
-        "name": "LOT",
-        "language": "",
-        "excel_colomn_name": "",
-        "correct_text": "2208122/1H",
-        "position_mm": [
-            90,
-            22.5,
-            40,
-            5
-        ],
-        "position_NiceLabel_abs_mm": [
-            91.55,
-            22.5,
-            17.2,
-            3.4
-        ]
-    },
-    "DOM": {
-        "name": "DOM",
-        "language": "",
-        "excel_colomn_name": "",
-        "correct_text": "",
-        "position_mm": [
-            56,
-            27.5,
-            10,
-            5
-        ],
-        "position_NiceLabel_abs_mm": [
-            76.6,
-            27.5,
-            13.5,
-            3.4
-        ]
-    },
-    "EXP": {
-        "name": "EXP",
-        "language": "",
-        "excel_colomn_name": "",
-        "correct_text": "2026-08-01",
-        "position_mm": [
-            90,
-            27.5,
-            40,
-            5
-        ],
-        "position_NiceLabel_abs_mm": [
-            93,
-            27.5,
-            13.6,
-            3.4
-        ]
-    },
-    "multi_language_description": {
-        "name": "multi_language_description",
-        "language": "eng+spa+deu+ell+pol+ukr+tur+por",
-        "excel_colomn_name": "Dodatek názvu",
-        "correct_text": "",
-        "position_mm": [
-            10,
-            32,
-            115,
-            18
-        ],
-        "position_NiceLabel_abs_mm": [
-            10,
-            34,
-            96.4,
-            20
-        ]
-    },
-    "manufacturer": {
-        "name": "manufacturer (add man_code)",
-        "language": "ces",
-        "excel_colomn_name": "",
-        "correct_text": "BIOSTER, a.s. Tejny 621 - 664 71 Veverská Bítýška Czech Republic - www.bioster.eu",
-        "position_mm": [
-            72,
-            63,
-            40,
-            12
-        ],
-        "position_NiceLabel_abs_mm": [
-            72,
-            65,
-            35,
-            8.2
-        ]
-    },
-    "manufacturer_code_sec": {
-        "name": "manufacturer_code_sec",
-        "language": "eng",
-        "excel_colomn_name": "Kod - sekundar",
-        "correct_text": "",
-        "position_mm": [
-            85,
-            74,
-            30,
-            5
-        ],
-        "position_NiceLabel_abs_mm": [
-            84.8,
-            74,
-            23.3,
-            2.8
-        ]
+    "texts": {
+        "multi_language_description": {
+            "name": "multi_language_description",
+            "language": "eng+spa+deu+ell+pol+ukr+tur+por",
+            "excel_colomn_name": "Dodatek názvu",
+            "correct_text": "",
+            "position_mm": [
+                10,
+                32,
+                115,
+                18
+            ],
+            "position_NiceLabel_abs_mm": [
+                10,
+                34,
+                96.4,
+                20
+            ]
+        },
+        "manufacturer": {
+            "name": "manufacturer (add man_code)",
+            "language": "ces",
+            "excel_colomn_name": "",
+            "correct_text": "BIOSTER, a.s. Tejny 621 - 664 71 Veverská Bítýška Czech Republic - www.bioster.eu",
+            "position_mm": [
+                72,
+                63,
+                40,
+                12
+            ],
+            "position_NiceLabel_abs_mm": [
+                72,
+                65,
+                35,
+                8.2
+            ]
+        },
+        "manufacturer_code_sec": {
+            "name": "manufacturer_code_sec",
+            "language": "eng",
+            "excel_colomn_name": "Kod - sekundar",
+            "correct_text": "",
+            "position_mm": [
+                85,
+                74,
+                30,
+                5
+            ],
+            "position_NiceLabel_abs_mm": [
+                84.8,
+                74,
+                23.3,
+                2.8
+            ]
+        }
     }
 }

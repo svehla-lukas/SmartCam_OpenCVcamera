@@ -17,6 +17,8 @@ import CameraThread
 settings = {
     "use_camera": False,
     "text_compare": True,
+    "snap_pictograms": False,
+    "draw_pictograms_on_origin": True,
 }
 flags = {"run_loop": True}
 
@@ -54,12 +56,13 @@ if __name__ == "__main__":
 
         smallest_area = 100 * 100
         #  Detect biggest rectangle and crop
-        frame_detect, crop_frame, center_x, center_y, angle = imPr.get_biggest_polygon(
+        frame_detect, crop_frame, crop_frame_box, angle = imPr.get_biggest_polygon(
             frame_gray, px_to_mm=px_to_mm, pixelsArea=(smallest_area / px_to_mm)
         )
 
-        cv2.imshow("origin", cv2.resize(frame_detect, None, fx=0.5, fy=0.5))
-        if crop_frame is not None:
+        if crop_frame is None:
+            cv2.imshow("origin", cv2.resize(frame_detect, None, fx=0.5, fy=0.5))
+        else:
             box_text_relative_position = [50, 100, 200, 150]
             first_pixel = imPr.detect_first_black_pixel(
                 crop_frame, box_text_relative_position
@@ -72,7 +75,7 @@ if __name__ == "__main__":
             ### Read REF position from product
             position_px = tuple(
                 int(value / px_to_mm)
-                for value in product_references["REF"]["position_mm"]
+                for value in product_references["texts_numbers"]["REF"]["position_mm"]
             )
             read_REF_code = imPr.extract_text_from_frame(
                 crop_frame, position_px=position_px, show_image=True
@@ -100,10 +103,48 @@ if __name__ == "__main__":
             position_offset = np.array(position_abs) + position_diff
             print(f"position_offset: {position_offset}")
 
+            if settings["draw_pictograms_on_origin"]:
+                for key, item in product_references["texts_numbers"].items():
+                    # convert z mm na px
+                    position_px = tuple(
+                        int(v / px_to_mm) for v in item.get("position_mm")
+                    )
+                    # Add box[0] offset coordinates to position_px x,y values
+                    if crop_frame_box is not None:
+                        position_px = (
+                            position_px[0] + int(crop_frame_box[0][0]),
+                            position_px[1] + int(crop_frame_box[0][1]),
+                            position_px[2],
+                            position_px[3],
+                        )
+                    imPr.draw_rotated_rect(
+                        frame_detect, position_px, item.get("name"), angle=90 + angle
+                    )
+                    cv2.imshow("origin", cv2.resize(frame_detect, None, fx=0.5, fy=0.5))
+            else:
+                cv2.imshow("origin", cv2.resize(frame_detect, None, fx=0.5, fy=0.5))
+
+            # Get pictogram images
+            if settings["snap_pictograms"]:
+                for key, item in product_references["pictograms"].items():
+                    print(item.get("position_mm"))
+
+                    position_mm = item.get("position_mm")
+
+                    # Převod z mm na px
+                    position_px = tuple(int(v / px_to_mm) for v in position_mm)
+                    x, y, w, h = position_px
+
+                    # Zkontrolujeme, že výška a šířka nejsou nula (aby nedošlo k chybě)
+                    if w > 0 and h > 0:
+                        frame_text_code = crop_frame[y : y + h, x : x + w]
+                        cv2.imshow(key, frame_text_code)
+                        cv2.waitKey(0)
+
             # Check text on package
             if settings["text_compare"]:
                 # Iterate through json and valid texts
-                for key, value in product_references.items():
+                for key, value in product_references["texts_numbers"].items():
                     # print(value)
                     # position = value.get("position_mm")
                     position_abs = value.get("position_NiceLabel_abs_mm")
