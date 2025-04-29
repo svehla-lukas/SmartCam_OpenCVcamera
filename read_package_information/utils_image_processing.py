@@ -33,7 +33,7 @@ def detect_edges_and_contours(
     #    - Prahová hodnota: 40 (vše pod touto hodnotou bude černé)
     #    - Maximální hodnota: 250 (vše nad touto hodnotou bude bílé)
     #    - Použitý režim: cv2.THRESH_BINARY (binární prahování)
-    _, threshold = cv2.threshold(blurred, 20, 250, cv2.THRESH_BINARY)
+    _, threshold = cv2.threshold(blurred, 40, 250, cv2.THRESH_BINARY)
 
     # 2.2 Adaptivní prahování (Adaptive Thresholding)
     #    - Dynamicky nastavuje prahovou hodnotu pro různé oblasti obrazu.
@@ -56,10 +56,10 @@ def detect_edges_and_contours(
     contours, hierarchy = cv2.findContours(
         edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE
     )
-    # cv2.imshow("adaptive_thresh", cv2.resize(adaptive_thresh, None, fx=0.5, fy=0.5))
-    # cv2.imshow("threshold", cv2.resize(threshold, None, fx=0.5, fy=0.5))
-    # cv2.imshow("threshold", cv2.resize(threshold, None, fx=0.5, fy=0.5))
-    # cv2.imshow("edges", cv2.resize(edges, None, fx=0.5, fy=0.5))
+    # cv2.imshow("adaptive_thresh", cv2.resize(adaptive_thresh, None, fx=0.3, fy=0.3))
+    # cv2.imshow("threshold", cv2.resize(threshold, None, fx=0.3, fy=0.3))
+    # cv2.imshow("threshold", cv2.resize(threshold, None, fx=0.3, fy=0.3))
+    # cv2.imshow("edges", cv2.resize(edges, None, fx=0.3, fy=0.3))
 
     return contours, hierarchy
 
@@ -103,6 +103,7 @@ def get_biggest_polygon(
             rect = cv2.minAreaRect(largest_contour)
             # Oříznutí podle obdélníku
             box = cv2.boxPoints(rect)
+            box = order_box_points(box)
             crop_frame = crop_image(frame_gray, box)
 
             ######################################################
@@ -334,33 +335,54 @@ def text_similarity(text1: str, text2: str) -> float:
 
 def find_first_black_pixel(binary_img: np.ndarray) -> tuple[int, int] | None:
     """
-    Finds the first black pixel (text) in a binary image, starting from the top-left corner.
-
-    :param binary_img: Binary image as a NumPy array.
-    :return: Coordinates (x, y) of the first detected text pixel, or None if no text is found.
+    Finds the first black pixel (text) in a binary image using pure NumPy, starting from top-left.
     """
-    # Ensure input is a valid NumPy array
     if not isinstance(binary_img, np.ndarray):
         raise TypeError("❌ 'binary_img' must be a NumPy array.")
 
-    # Get non-zero (black) pixels
-    non_zero_pixels = cv2.findNonZero(
-        255 - binary_img
-    )  # Invert image for proper detection
+    # Najdi indexy všech černých pixelů (hodnota 0)
+    black_pixels = np.argwhere(binary_img == 0)
 
-    if non_zero_pixels is None:
+    if black_pixels.size == 0:
         return None  # No text detected
 
-    # Get the first detected text pixel (smallest Y, then smallest X)
-    first_pixel = tuple(
-        non_zero_pixels[0][0]
-    )  # OpenCV stores it as [[[x, y]]], so we extract (x, y)
+    # Seřadíme podle Y (řádek), pak X (sloupec)
+    black_pixels = black_pixels[np.lexsort((black_pixels[:, 1], black_pixels[:, 0]))]
 
-    return first_pixel
+    # První černý pixel
+    y, x = black_pixels[0]
+    return (x, y)
+
+
+# def find_first_black_pixel(binary_img: np.ndarray) -> tuple[int, int] | None:
+#     """
+#     Finds the first black pixel (text) in a binary image, starting from the top-left corner.
+
+#     :param binary_img: Binary image as a NumPy array.
+#     :return: Coordinates (x, y) of the first detected text pixel, or None if no text is found.
+#     """
+#     # Ensure input is a valid NumPy array
+#     if not isinstance(binary_img, np.ndarray):
+#         raise TypeError("❌ 'binary_img' must be a NumPy array.")
+
+#     # Get non-zero (black) pixels
+#     non_zero_pixels = cv2.findNonZero(
+#         255 - binary_img
+#     )  # Invert image for proper detection
+
+#     if non_zero_pixels is None:
+#         return None  # No text detected
+
+#     # Get the first detected text pixel (smallest Y, then smallest X)
+#     first_pixel = tuple(
+#         non_zero_pixels[0][0]
+#     )  # OpenCV stores it as [[[x, y]]], so we extract (x, y)
+
+#     return first_pixel
 
 
 def process_and_find_black_pixel(
-    frame: np.ndarray, box: np.ndarray
+    frame: np.ndarray, box: np.ndarray, debugMode=False
 ) -> tuple[int, int] | None:
     """
     Applies Gaussian blur, thresholds the image, crops it to the given bounding box,
@@ -378,10 +400,12 @@ def process_and_find_black_pixel(
 
     # Crop the binary image using the provided box
     cropped_frame = crop_image(binary, box)
-
     # Find the first text pixel
     first_pixel = find_first_black_pixel(cropped_frame)
-
+    if debugMode:
+        cv2.imshow("crope_1st_pixel", cropped_frame)
+        cv2.waitKey(0)
+        print(first_pixel)
     return first_pixel
 
 
@@ -433,7 +457,7 @@ def detect_first_black_pixel(crop_frame, search_area):
     box = create_bounding_box(x, y, width, height)
 
     # Find the first black pixel in the specified area
-    first_pixel = process_and_find_black_pixel(crop_frame, box)
+    first_pixel = process_and_find_black_pixel(crop_frame, box, debugMode=True)
 
     if first_pixel is not None:
         first_pixel += np.array([x, y])
@@ -472,3 +496,19 @@ def draw_rotated_rect(
         cv2.putText(frame, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1)
 
     return frame
+
+
+def order_box_points(pts: np.ndarray) -> np.ndarray:
+    rect = np.zeros((4, 2), dtype="float32")
+
+    # Součet x + y (levý horní roh má nejmenší součet)
+    s = pts.sum(axis=1)
+    rect[0] = pts[np.argmin(s)]  # levý horní
+    rect[2] = pts[np.argmax(s)]  # pravý dolní
+
+    # Rozdíl x - y (pravý horní roh má nejmenší rozdíl)
+    diff = np.diff(pts, axis=1)
+    rect[1] = pts[np.argmin(diff)]  # pravý horní
+    rect[3] = pts[np.argmax(diff)]  # levý dolní
+
+    return rect

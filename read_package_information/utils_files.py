@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+import pathlib
 
 """ JSON """
 
@@ -12,6 +13,24 @@ def load_json(file_name):
 def save_json(data, file_name):
     with open(file_name, "w", encoding="utf-8") as file:
         json.dump(data, file, indent=4, ensure_ascii=False)
+
+
+def update_json_value(file_path: str, key: str, value):
+    file = pathlib.Path(file_path)
+
+    # Pokud soubor existuje a není prázdný, načti obsah
+    if file.exists() and file.stat().st_size > 0:
+        with open(file, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    else:
+        data = {}  # Pokud soubor neexistuje nebo je prázdný
+
+    # Aktualizuj hodnotu
+    data[key] = value
+
+    # Ulož zpět
+    with open(file, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
 
 
 def fill_json_from_excel(product_json: dict, excel_dict: list, REF_code: str) -> dict:

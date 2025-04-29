@@ -1,0 +1,428 @@
+{
+    "Traumastem_Taf_Light": {
+        "texts": {
+            "product_name": {
+                "name": "product_name",
+                "language": "",
+                "excel_colomn_name": "Název výrobku",
+                "correct_text": "Traumastem Taf Light",
+                "position_mm": [
+                    10,
+                    12,
+                    50,
+                    6
+                ],
+                "position_NiceLabel_abs_mm": [
+                    14.6,
+                    14,
+                    55.5,
+                    5
+                ]
+            },
+            "multi_language_description": {
+                "name": "multi_language_description",
+                "language": "eng+spa+deu+ell+pol+ukr+tur+por",
+                "excel_colomn_name": "Dodatek názvu",
+                "correct_text": "",
+                "position_mm": [
+                    10,
+                    33,
+                    115,
+                    18
+                ],
+                "position_NiceLabel_abs_mm": [
+                    10,
+                    32,
+                    96.4,
+                    20
+                ]
+            },
+            "manufacturer": {
+                "name": "manufacturer (add man_code)",
+                "language": "ces",
+                "excel_colomn_name": "",
+                "correct_text": "BIOSTER, a.s. Tejny 621 - 664 71 Veverská Bítýška Czech Republic - www.bioster.eu",
+                "position_mm": [
+                    70,
+                    65.5,
+                    46,
+                    7.5
+                ],
+                "position_NiceLabel_abs_mm": [
+                    72,
+                    64,
+                    35,
+                    8.2
+                ]
+            },
+            "manufacturer_code_sec": {
+                "name": "manufacturer_code_sec",
+                "language": "eng",
+                "excel_colomn_name": "Kod - sekundar",
+                "correct_text": "",
+                "position_mm": [
+                    86,
+                    75,
+                    30,
+                    3
+                ],
+                "position_NiceLabel_abs_mm": [
+                    84.8,
+                    75,
+                    23.3,
+                    2.8
+                ]
+            }
+        },
+        "texts_numbers": {
+            "DMC_text": {
+                "name": "DMC_text",
+                "language": "",
+                "excel_colomn_name": "",
+                "correct_text": "(01)18590317102263 (10)2205132/1H (17)250513",
+                "position_mm": [
+                    37,
+                    19,
+                    27,
+                    13
+                ],
+                "position_NiceLabel_abs_mm": [
+                    38.4,
+                    20.7,
+                    26.1,
+                    11.6
+                ]
+            },
+            "DIM": {
+                "name": "DIM",
+                "language": "",
+                "excel_colomn_name": "Rozmer serazeny",
+                "correct_text": "",
+                "position_mm": [
+                    70,
+                    12,
+                    45,
+                    5
+                ],
+                "position_NiceLabel_abs_mm": [
+                    75.6,
+                    14,
+                    33.2,
+                    3.4
+                ]
+            },
+            "REF": {
+                "name": "REF",
+                "language": "",
+                "excel_colomn_name": "REF",
+                "correct_text": "",
+                "position_mm": [
+                    90,
+                    17.5,
+                    40,
+                    5
+                ],
+                "position_NiceLabel_abs_mm": [
+                    91.5,
+                    17.5,
+                    17.2,
+                    3.4
+                ]
+            },
+            "LOT": {
+                "name": "LOT",
+                "language": "",
+                "excel_colomn_name": "",
+                "correct_text": "2208122/1H",
+                "position_mm": [
+                    90,
+                    22.5,
+                    40,
+                    5
+                ],
+                "position_NiceLabel_abs_mm": [
+                    91.55,
+                    22.5,
+                    17.2,
+                    3.4
+                ]
+            },
+            "DOM": {
+                "name": "DOM",
+                "language": "",
+                "excel_colomn_name": "",
+                "correct_text": "",
+                "position_mm": [
+                    76,
+                    27.5,
+                    14,
+                    5
+                ],
+                "position_NiceLabel_abs_mm": [
+                    76.6,
+                    27.5,
+                    13.5,
+                    3.4
+                ]
+            },
+            "EXP": {
+                "name": "EXP",
+                "language": "",
+                "excel_colomn_name": "",
+                "correct_text": "2026-08-01",
+                "position_mm": [
+                    90,
+                    27.5,
+                    40,
+                    5
+                ],
+                "position_NiceLabel_abs_mm": [
+                    93,
+                    27.5,
+                    13.6,
+                    3.4
+                ]
+            }
+        },
+        "QR_code": {
+            "name": "QR_code",
+            "language": "",
+            "excel_colomn_name": "",
+            "correct_text": "",
+            "position_mm": [
+                22,
+                19,
+                15,
+                15
+            ],
+            "position_NiceLabel_abs_mm": [
+                23.6,
+                25.8,
+                12,
+                12
+            ]
+        }
+    },
+    "Traumastem_Taf": {
+        "texts": {
+            "product_name": {
+                "name": "product_name",
+                "language": "",
+                "excel_colomn_name": "Název výrobku",
+                "correct_text": "Traumastem TAF",
+                "position_mm": [
+                    10,
+                    12,
+                    50,
+                    6
+                ],
+                "position_NiceLabel_abs_mm": [
+                    14.6,
+                    14,
+                    55.5,
+                    5
+                ]
+            },
+            "multi_language_description": {
+                "name": "multi_language_description",
+                "language": "eng+spa+deu+ell+pol+ukr+tur+por",
+                "excel_colomn_name": "Dodatek názvu",
+                "correct_text": "",
+                "position_mm": [
+                    10,
+                    33,
+                    115,
+                    28
+                ],
+                "position_NiceLabel_abs_mm": [
+                    10,
+                    32,
+                    96.4,
+                    20
+                ]
+            },
+            "manufacturer": {
+                "name": "manufacturer (add man_code)",
+                "language": "ces",
+                "excel_colomn_name": "",
+                "correct_text": "BIOSTER, a.s. Tejny 621 - 664 71 Veverská Bítýška Czech Republic - www.bioster.eu",
+                "position_mm": [
+                    65,
+                    77,
+                    50,
+                    8
+                ],
+                "position_NiceLabel_abs_mm": [
+                    73,
+                    64,
+                    35,
+                    8.2
+                ]
+            },
+            "manufacturer_code_sec": {
+                "name": "manufacturer_code_sec",
+                "language": "eng",
+                "excel_colomn_name": "Kod - sekundar",
+                "correct_text": "100282/5",
+                "position_mm": [
+                    86,
+                    85,
+                    30,
+                    3
+                ],
+                "position_NiceLabel_abs_mm": [
+                    84.8,
+                    75,
+                    23.3,
+                    2.8
+                ]
+            },
+            "distributor": {
+                "name": "distributor_address",
+                "language": "eng",
+                "excel_colomn_name": "Adresa distributora",
+                "correct_text": "Viale Porto Torres, 64 - 07100 Sassari - Italia",
+                "position_mm": [
+                    10,
+                    72,
+                    60,
+                    8
+                ],
+                "position_NiceLabel_abs_mm": [
+                    84.8,
+                    75,
+                    23.3,
+                    2.8
+                ]
+            }
+        },
+        "texts_numbers": {
+            "DMC_text": {
+                "name": "DMC_text",
+                "language": "",
+                "excel_colomn_name": "",
+                "correct_text": "(01)18590317100283 (10)1234567 (17)071124",
+                "position_mm": [
+                    37,
+                    19,
+                    27,
+                    13
+                ],
+                "position_NiceLabel_abs_mm": [
+                    38.4,
+                    20.7,
+                    26.1,
+                    11.6
+                ]
+            },
+            "DIM": {
+                "name": "DIM",
+                "language": "",
+                "excel_colomn_name": "Rozmer serazeny",
+                "correct_text": "",
+                "position_mm": [
+                    70,
+                    12,
+                    45,
+                    5
+                ],
+                "position_NiceLabel_abs_mm": [
+                    75.6,
+                    14,
+                    33.2,
+                    3.4
+                ]
+            },
+            "REF": {
+                "name": "REF",
+                "language": "",
+                "excel_colomn_name": "REF",
+                "correct_text": "",
+                "position_mm": [
+                    90,
+                    17.5,
+                    40,
+                    5
+                ],
+                "position_NiceLabel_abs_mm": [
+                    91.5,
+                    17.5,
+                    17.2,
+                    3.4
+                ]
+            },
+            "LOT": {
+                "name": "LOT",
+                "language": "",
+                "excel_colomn_name": "",
+                "correct_text": "1234567",
+                "position_mm": [
+                    90,
+                    22.5,
+                    40,
+                    5
+                ],
+                "position_NiceLabel_abs_mm": [
+                    91.55,
+                    22.5,
+                    17.2,
+                    3.4
+                ]
+            },
+            "DOM": {
+                "name": "DOM",
+                "language": "",
+                "excel_colomn_name": "",
+                "correct_text": "",
+                "position_mm": [
+                    76,
+                    27.5,
+                    14,
+                    5
+                ],
+                "position_NiceLabel_abs_mm": [
+                    76.6,
+                    27.5,
+                    13.5,
+                    3.4
+                ]
+            },
+            "EXP": {
+                "name": "EXP",
+                "language": "",
+                "excel_colomn_name": "",
+                "correct_text": "2007-11-24",
+                "position_mm": [
+                    90,
+                    27.5,
+                    40,
+                    5
+                ],
+                "position_NiceLabel_abs_mm": [
+                    93,
+                    27.5,
+                    13.6,
+                    3.4
+                ]
+            }
+        },
+        "QR_code": {
+            "name": "QR_code",
+            "language": "",
+            "excel_colomn_name": "",
+            "correct_text": "",
+            "position_mm": [
+                22,
+                19,
+                15,
+                15
+            ],
+            "position_NiceLabel_abs_mm": [
+                23.6,
+                25.8,
+                12,
+                12
+            ]
+        }
+    }
+}
