@@ -16,31 +16,30 @@ image_package_path = "TraumastemTafLight.png"
 
 settings = {
     "use_camera": True,
+    "save_capture_frame": False,
 }
-
 
 """Capture a single frame without starting video streaming."""
 if __name__ == "__main__":
     center_x, center_y, angle = 0, 0, 0
-    camera = CameraThread()  # No callback needed
+    camera = CameraThread()
 
     try:
         while True:  # Infinite loop until 'q' is pressed
-            time.sleep(1)  # Wait 1 second before capturing the next frame
+            time.sleep(1)
             if settings["use_camera"]:
-                frame = camera.capture_single_frame()  # Capture one frame
-                # Save the captured frame
-                # filename = f"TraumastemTafLight.png"
-                # cv2.imwrite(filename, frame)
-                # print(f"📸 Frame saved as {filename}")
+                frame = camera.capture_single_frame()  # Capture one frame from camera
+                if settings["save_capture_frame"]:
+                    Save the captured frame
+                    filename = f"TraumastemTafLight.png"
+                    cv2.imwrite(filename, frame)
+                    print(f"📸 Frame saved as {filename}")
             else:
                 frame = cv2.imread(image_package_path)
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            # capture_on_keypress(frame, "/captured_image.png")
 
             if frame is not None:
                 plg_frame, center_x, center_y, angle = get_biggest_polygon(frame, 10000)
-                # 3. Vykreslení textu s informacemi v levém horním rohu
                 if angle is not None:
                     text = f"Stred: ({center_x}, {center_y}) | Uhel: {angle:.2f}deg"
                     cv2.putText(
@@ -72,5 +71,5 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\n🔴 KeyboardInterrupt detected. Exiting...")
 
-    camera.stop()  # Ensure camera resources are released
-    cv2.destroyAllWindows()  # Close OpenCV windows
+    camera.stop()
+    cv2.destroyAllWindows()
